@@ -10,6 +10,7 @@
                         ((:file "package")
                          (:file "utils")
                          (:file "d01")
-                         (:file "d02")))))
+                         (:file "d02")
+                         (:file "summary")))))
 
 
