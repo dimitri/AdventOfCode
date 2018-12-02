@@ -1,4 +1,4 @@
-(in-package #:advent/2018)
+(in-package #:advent)
 
 (defmacro timing (&body forms)
   "return both how much real time was spend in body and its result"
