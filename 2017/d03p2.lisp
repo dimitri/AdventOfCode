@@ -52,26 +52,29 @@ What is the first value written that is larger than your puzzle input?
                         (list current-width        0)
                         (list 0                    (* -1 (incf current-width)))
                         (list (* -1 current-width) 0))
-              :do (flet ((adjacent-squares-sum (row col)
-                           (loop :for r :from -1 :to 1
-                              :sum (loop :for c :from -1 :to 1
-                                      :unless (= 0 r c)
+              :do (labels
+                      ((adjacent-squares-sum (row col)
+                         (loop :for r :from -1 :to 1
+                            :sum (loop :for c :from -1 :to 1
+                                    :unless (= 0 r c)
                                       :sum (let ((rr (+ row r))
                                                  (cc (+ col c)))
-                                             (gethash (cons rr cc) values 0))))))
+                                             (gethash (cons rr cc) values 0)))))
+
+                       (step-and-maybe-return (rs cs)
+                         (let ((value
+                                (adjacent-squares-sum (incf row rs)
+                                                      (incf col cs))))
+                           (when (< input value)
+                             (return-from compute-first-square-larger-than
+                               value))
+                           (setf (gethash (cons row col) values) value))))
+
                     (loop :repeat (abs rstep)
-                       :for incr := (signum rstep)
-                       :for value := (adjacent-squares-sum (incf row incr) col)
-                       :when (< input value)
-                       :do (return-from compute-first-square-larger-than value)
-                       :do (setf (gethash (cons row col) values) value))
+                       :do (step-and-maybe-return (signum rstep) 0))
 
                     (loop :repeat (abs cstep)
-                       :for incr := (signum cstep)
-                       :for value := (adjacent-squares-sum row (incf col incr))
-                       :when (< input value)
-                       :do (return-from compute-first-square-larger-than value)
-                       :do (setf (gethash (cons row col) values) value)))))))
+                       :do (step-and-maybe-return 0 (signum cstep))))))))
 
 (defun d03/p2 (&optional (input 265149))
   "Find how many steps are required to move back to 1 (0 0) from input."
