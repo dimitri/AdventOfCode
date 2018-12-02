@@ -15,6 +15,7 @@
         (current-square 1)
         (current-width 0))
     (loop
+       :for i :from 0
        :until (= current-square input)
        :do (loop :for (rstep cstep)
               ;; move right by 1, then up by 1

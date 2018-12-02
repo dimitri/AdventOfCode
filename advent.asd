@@ -9,7 +9,8 @@
                (:file "utils")
                (:module "2017"
                         :components ((:file "package")
-                                     (:file "d03")))
+                                     (:file "d03p1")
+                                     (:file "d03p2")))
                (:module "2018"
                         :components
                         ((:file "package")
