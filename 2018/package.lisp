@@ -10,3 +10,15 @@
            #:d2/p1
            #:d3/p1
            #:d3/p2))
+
+(defpackage #:advent/2018/viz
+  (:use #:clim #:clim-lisp #:advent/2018)
+  (:import-from :advent/2018
+                :make-fabric-from-claims-stream
+                :map-claim-input
+                :claimed-only-once
+                :*input/d3/p1*
+                :claim-left
+                :claim-width
+                :claim-top
+                :claim-height))
