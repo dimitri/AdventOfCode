@@ -27,7 +27,7 @@
                    display)
                int))))
 
-(defun draw-claim (claim stream &key filled ink line-dashes)
+(defun draw-claim (claim stream &key (filled t) ink line-dashes)
   "Draw a claim in our McCLIM application"
   (clim:draw-rectangle* stream
                         (claim-left claim)
@@ -41,7 +41,7 @@
 (defmethod draw-fabric ((aocfabric aocfabric) stream &key max-width max-height)
   (declare (ignore max-width max-height))
   (let ((ink      (clim:compose-in clim:+green3+ (clim:make-opacity 0.3)))
-        (ink-once (clim:compose-in clim:+yellow+ (clim:make-opacity 0.5)))
+        (ink-once (clim:compose-in clim:+yellow+ (clim:make-opacity 0.6)))
         (fabric   (make-fabric-from-claims-stream *input/d3/p1*)))
     ;; draw all claims
     (map-claim-input (lambda (claim) (draw-claim claim stream :ink ink))
@@ -50,7 +50,7 @@
     ;; draw claims claimed only once
     (map-claim-input (lambda (claim)
                        (when (claimed-only-once fabric claim)
-                         (draw-claim claim stream :filled t :ink ink-once)))
+                         (draw-claim claim stream :ink ink-once)))
                      *input/d3/p1*)))
 
 (define-aocfabric-command (com-quit :name t) ()
