@@ -41,3 +41,12 @@ Day 3: No Matter How You Slice It
   Puzzle 2: find the only claim asked of only once
   739.283ms 656
 ~~~
+
+## McCLIM visualization of Day 03 Fabrics puzzle
+
+Just for the kicks of it, and because I'm nowadays playing around with
+[McCLIM](https://common-lisp.net/project/mcclim/), A GUI toolkit for Common
+Lisp, here's a visualization I did quickly in 64 lines of Common Lisp code
+for the Fabrics puzzle:
+
+![McCLIM Fabric Visualization](./2018/d03viz.png)
