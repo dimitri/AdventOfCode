@@ -78,17 +78,25 @@ Compared to the manual too-complex thing:
         polymer
         (let ((ppos      0)
               (candidate nil))
-          (flet ((push-candidate ()
+          (flet ((maybe-consider-next-candidate ()
+                   (unless candidate
+                     (when (< ppos size)
+                       (setf candidate (prog1
+                                           (aref polymer ppos)
+                                         (incf ppos))))))
+                 (push-candidate ()
                    (setf (aref result rpos) candidate)
                    (incf rpos)
-                   (setf candidate nil)))
+                   (setf candidate nil))
+                 (pop-candidate ()
+                   (incf ppos)
+                   (if (< 0 rpos)
+                       (progn
+                         (decf rpos)
+                         (setf candidate (aref result rpos)))
+                       (setf candidate nil))))
             (loop
-               :while (< ppos size)
-               :do (setf candidate
-                         (or candidate
-                             (prog1
-                                 (aref polymer ppos)
-                               (incf ppos))))
+               :do (maybe-consider-next-candidate)
                :while (< ppos size)
                :do (let ((reaction
                           (units-reaction candidate (aref polymer ppos))))
@@ -98,13 +106,7 @@ Compared to the manual too-complex thing:
                                candidate (aref polymer ppos) rpos ppos))
                      (if reaction
                          (push-candidate)
-                         (progn
-                           (incf ppos)
-                           (if (< 0 rpos)
-                               (progn
-                                 (decf rpos)
-                                 (setf candidate (aref result rpos)))
-                               (setf candidate nil))))))
+                         (pop-candidate))))
             (when candidate (push-candidate)))
           (subseq result 0 rpos)))))
 
