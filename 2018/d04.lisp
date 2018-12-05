@@ -194,7 +194,7 @@ chose? (In the above example, the answer would be 99 * 45 = 4455.)
              guards)
     winner))
 
-(defun compute-p2-answer (stream)
+(defun compute-p2-answer (guard)
   (* (guard-id guard) (guard-most-sleepy-minute guard)))
 
 (defun d4/p2/test ()
