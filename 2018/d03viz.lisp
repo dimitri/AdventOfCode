@@ -5,7 +5,8 @@
 (in-package :advent/2018/viz)
 
 (define-application-frame aocfabric ()
-  ()
+  ((fabric :initform nil :accessor fabric)
+   (claimed-once :initform nil :accessor claimed-once))
   (:menu-bar menubar-command-table)
   (:panes (display :application
                    :display-function 'draw-fabric
@@ -25,7 +26,17 @@
    (:default (vertically ()
                  (scrolling (:height 600 :width 1020 :scroll-bars t)
                    display)
-               int))))
+                 int))))
+
+(defmethod initialize-fabric ((aocfabric aocfabric))
+  (unless (fabric aocfabric)
+    (let ((fabric (make-fabric-from-claims-stream *input/d3/p1*)))
+      (setf (fabric aocfabric) fabric)
+      (map-claim-input (lambda (claim)
+                         (when (claimed-only-once fabric claim)
+                           (setf (claimed-once aocfabric) claim)
+                           (return-from initialize-fabric)))
+                       *input/d3/p1*))))
 
 (defun draw-claim (claim stream &key (filled t) ink line-dashes)
   "Draw a claim in our McCLIM application"
@@ -53,19 +64,23 @@
                          (draw-claim claim stream :ink random-color))))
                    *input/d3/p1*)
 
-  ;; draw claims claimed only once
-  (let ((fabric (make-fabric-from-claims-stream *input/d3/p1*)))
-    (map-claim-input (lambda (claim)
-                       (when (claimed-only-once fabric claim)
-                         (draw-claim claim stream :ink +white+)))
-                     *input/d3/p1*)))
+  ;; draw the one claim claimed only once
+  (when (claimed-once aocfabric)
+    (draw-claim (claimed-once aocfabric) stream :ink +white+)))
+
+(define-aocfabric-command (com-find :name t) ()
+  (initialize-fabric *application-frame*))
+
+(define-aocfabric-command (com-reset :name t) ())
 
 (define-aocfabric-command (com-quit :name t) ()
   (clim:frame-exit clim:*application-frame*))
 
 (make-command-table 'menubar-command-table
 		    :errorp nil
-		    :menu '(("Quit" :command com-quit)))
+		    :menu '(("Find" :command com-find)
+                            ("Reset" :command com-reset)
+                            ("Quit" :command com-quit)))
 
 (defun viz ()
   (run-frame-top-level (make-application-frame 'aocfabric)))
