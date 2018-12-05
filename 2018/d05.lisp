@@ -30,6 +30,43 @@ How many units remain after fully reacting the polymer you scanned?
       nil
       (list unit1 unit2)))
 
+#|
+
+https://www.reddit.com/r/adventofcode/comments/a3912m/2018_day_5_solutions/
+
+part1 :: String -> Int
+part1 = length . foldr step ""
+  where
+    step x (y:ys) | x /= y && toUpper x == toUpper y = ys
+    step x ys                                        = x : ys
+
+reduce-polymer-foldr is nice but so slow!
+
+  Puzzle 1: Polymer reactions
+  1426.065ms 10250
+  Puzzle 2: Time to improve the polymer.
+  16801.107ms 6188
+
+Compared to the manual too-complex thing:
+
+  Puzzle 1: Polymer reactions
+   65.761ms 10250
+  Puzzle 2: Time to improve the polymer.
+  1398.750ms 6188
+
+|#
+
+(defun reduce-polymer-foldr (polymer)
+  (reduce (lambda (unit1 unit2)
+            (if (and (string/= "" unit2)
+                     (char/= unit1 (aref unit2 0))
+                     (char= (char-downcase unit1) (char-downcase (aref unit2 0))))
+                (subseq unit2 1)        ; pop
+                (concatenate 'string (list unit1) unit2)))
+          polymer
+          :from-end t
+          :initial-value ""))
+
 (defun reduce-polymer (polymer)
   (declare (type string polymer))
   (when *debug*
