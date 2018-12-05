@@ -16,6 +16,7 @@
                                      (:file "d03p2")
                                      (:file "d04")
                                      (:file "d05")
+                                     (:file "d06")
                                      (:file "summary")))
                (:module "2018"
                         :components
