@@ -46,6 +46,12 @@ Day 4: Repose Record
     5.472ms 35623
   Puzzle 2: Minute Most Slept by a single guard, Strategy 2
     7.761ms 23037
+    
+Day 5: Alchemical Reduction
+  Puzzle 1: Polymer reactions
+   62.627ms 10250
+  Puzzle 2: Time to improve the polymer.
+  1414.644ms 6188
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
