@@ -21,4 +21,6 @@
            #:claim-height))
 
 (defpackage #:advent/2018/viz
-  (:use #:clim #:clim-lisp #:advent/2018))
+  (:use #:clim #:clim-lisp #:advent/2018)
+  (:export #:viz))
+
