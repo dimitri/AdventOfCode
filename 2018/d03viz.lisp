@@ -54,7 +54,7 @@
   ;; draw all claims
   (map-claim-input (lambda (claim)
                      (flet ((random-component ()
-                              (/ (random 100) 100.0)))
+                              (/ (+ 10 (random 90)) 100.0)))
                        (let ((random-color
                               (compose-in
                                (clim:make-rgb-color (random-component)
