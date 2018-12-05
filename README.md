@@ -49,22 +49,10 @@ Day 4: Repose Record
     
 Day 5: Alchemical Reduction
   Puzzle 1: Polymer reactions
-   62.627ms 10250
+    2.609ms 10250
   Puzzle 2: Time to improve the polymer.
-  1414.644ms 6188
+  100.259ms 6188
 ~~~
-
-For reference, using SBCL for day 5:
-
-~~~
-Day 5: Alchemical Reduction
-  Puzzle 1: Polymer reactions
-    2.000ms 10250
-  Puzzle 2: Time to improve the polymer.
-   69.000ms 6188
-~~~
-
-Same code, smarter compiler.
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
 

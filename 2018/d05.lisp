@@ -23,12 +23,10 @@ How many units remain after fully reacting the polymer you scanned?
 (defparameter *input/d5/test/2* "bBtrlaALRBb")
 (defparameter *debug* nil)
 
-(defun units-reaction (unit1 unit2)
+(defun units-react-p (unit1 unit2)
   (declare (type character unit1 unit2))
-  (if (and (char/= unit1 unit2)
-           (char= (char-downcase unit1) (char-downcase unit2)))
-      nil
-      (list unit1 unit2)))
+  (and (char/= unit1 unit2)
+       (char-equal unit1 unit2)))
 
 #|
 
@@ -98,15 +96,13 @@ Compared to the manual too-complex thing:
             (loop
                :do (maybe-consider-next-candidate)
                :while (< ppos size)
-               :do (let ((reaction
-                          (units-reaction candidate (aref polymer ppos))))
-                     (when *debug*
-                       (format t "~a ~20t[~a ~a] [~a/~a]~%"
-                               (subseq result 0 rpos)
-                               candidate (aref polymer ppos) rpos ppos))
-                     (if reaction
-                         (push-candidate)
-                         (pop-candidate))))
+               :do (when *debug*
+                     (format t "~a ~20t[~a ~a] [~a/~a]~%"
+                             (subseq result 0 rpos)
+                             candidate (aref polymer ppos) rpos ppos))
+               :do (if (units-react-p candidate (aref polymer ppos))
+                       (pop-candidate)
+                       (push-candidate)))
             (when candidate (push-candidate)))
           (subseq result 0 rpos)))))
 
@@ -132,8 +128,7 @@ polarity), fully react the remaining polymer, and measure its length.
     (loop :for unit :across polymer
        :do (unless (gethash unit units)
              (setf (gethash unit units)
-                   (reduce-polymer
-                    (remove-if (lambda (c) (equalp c unit)) polymer)))))
+                   (reduce-polymer (remove unit polymer :test #'char-equal)))))
     units))
 
 (defun d5/p2 (&optional (polymer *input/d5/p1*))
