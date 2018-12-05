@@ -64,7 +64,8 @@ chose? (In the above example, the answer would be 10 * 24 = 240.)
   (event    nil :type (or null symbol)))
 
 (defstruct guard
-  id records reversed minutes-asleep periods-asleep most-sleepy-minute)
+  id records reversed minutes-asleep periods-asleep
+  most-sleepy-minute most-sleepy-minute-frequency)
 
 (defun parse-record (line)
   (let* ((date  (parse-integer (remove #\- (subseq line 1 11))))
@@ -132,27 +133,23 @@ chose? (In the above example, the answer would be 10 * 24 = 240.)
                (when (< (cdr most-frequent) freq)
                  (setf most-frequent (cons minute freq))))
              frequencies)
-    most-frequent))
+
+    (destructuring-bind (minute . freq) most-frequent
+      (values minute freq))))
 
 (defun find-most-asleep-guard (guards)
-  (let (guards-minutes)
+  (let (winner)
     (maphash (lambda (guard-id guard)
-               (push (cons guard-id (guard-minutes-asleep guard))
-                     guards-minutes))
+               (declare (ignore guard-id))
+               (when (or (null winner)
+                         (< (guard-minutes-asleep winner)
+                            (guard-minutes-asleep guard)))
+                 (setf winner guard)))
              guards)
-    (let* ((most-asleep-guard-id
-            (car
-             (reduce (lambda (acc atom)
-                       (if (> (cdr atom) (cdr acc)) atom acc))
-                     guards-minutes
-                     :initial-value '(not-found . 0))))
-           (most-asleep-guard (gethash most-asleep-guard-id guards)))
-      (setf (guard-most-sleepy-minute most-asleep-guard)
-            (compute-most-sleepy-minute most-asleep-guard))
-      most-asleep-guard)))
+    winner))
 
 (defun compute-p1-answer (guard)
-  (* (guard-id guard) (car (guard-most-sleepy-minute guard))))
+  (* (guard-id guard) (compute-most-sleepy-minute guard)))
 
 (defun d4/p1/test ()
   (with-input-from-string (s *input/d4/test*)
@@ -181,34 +178,40 @@ chose? (In the above example, the answer would be 99 * 45 = 4455.)
 |#
 
 (defun find-most-asleep-minute (guards)
-  (let ((guard-id-minute-freq (list nil nil -1)))
+  (let (winner)
     (maphash (lambda (guard-id guard)
-               (destructuring-bind (guard-minute . guard-freq)
-                   (setf (guard-most-sleepy-minute guard)
-                         (compute-most-sleepy-minute guard))
-                 (when (< (third guard-id-minute-freq) guard-freq)
-                   (setf guard-id-minute-freq
-                         (list guard-id guard-minute guard-freq)))))
+               (declare (ignore guard-id))
+               (multiple-value-bind (guard-minute guard-freq)
+                   (compute-most-sleepy-minute guard)
+
+                 (setf (guard-most-sleepy-minute guard)           guard-minute
+                       (guard-most-sleepy-minute-frequency guard) guard-freq)
+
+                 (when (or (null winner)
+                           (< (guard-most-sleepy-minute-frequency winner)
+                              (guard-most-sleepy-minute-frequency guard)))
+                   (setf winner guard))))
              guards)
-    guard-id-minute-freq))
+    winner))
 
-(defun compute-p2-answer (guard-id minute frequency)
-  (declare (ignore frequency))
-  (* guard-id minute))
+(defun compute-p2-answer (stream)
+  (* (guard-id guard) (guard-most-sleepy-minute guard)))
 
-(defun d3/p2/test ()
-  (with-input-from-string (s *input/d4/test*)
-    (let ((most-asleep-minute
-           (find-most-asleep-minute (records-per-guard (load-records s)))))
-      (values (apply #'compute-p2-answer most-asleep-minute)
-              most-asleep-minute))))
+(defun d4/p2/test ()
+  (let* ((guards (records-per-guard
+                  (with-input-from-string (input *input/d4/test*)
+                    (load-records input))))
+         (winner (find-most-asleep-minute guards)))
+    (values (compute-p2-answer winner) winner)))
 
 (defun d4/p2 ()
-  (with-open-file (input *input/d4/p1*
-                         :direction :input
-                         :element-type 'character)
-    (apply #'compute-p2-answer
-           (find-most-asleep-minute (records-per-guard (load-records input))))))
+  (let* ((guards (records-per-guard
+                  (with-open-file (input *input/d4/p1*
+                                         :direction :input
+                                         :element-type 'character)
+                    (load-records input))))
+         (winner (find-most-asleep-minute guards)))
+    (values (compute-p2-answer winner) winner)))
 
 (defun d4/summary ()
   (format t "Day 4: Repose Record~%")

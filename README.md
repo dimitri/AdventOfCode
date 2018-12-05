@@ -43,9 +43,9 @@ Day 3: No Matter How You Slice It
   
 Day 4: Repose Record
   Puzzle 1: Most Sleepy Guard, Strategy 1
-    9.825ms 35623
+    5.472ms 35623
   Puzzle 2: Minute Most Slept by a single guard, Strategy 2
-    6.753ms 23037
+    7.761ms 23037
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
