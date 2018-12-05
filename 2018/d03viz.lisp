@@ -40,17 +40,24 @@
 
 (defmethod draw-fabric ((aocfabric aocfabric) stream &key max-width max-height)
   (declare (ignore max-width max-height))
-  (let ((ink      (clim:compose-in clim:+green3+ (clim:make-opacity 0.3)))
-        (ink-once (clim:compose-in clim:+yellow+ (clim:make-opacity 0.6)))
-        (fabric   (make-fabric-from-claims-stream *input/d3/p1*)))
-    ;; draw all claims
-    (map-claim-input (lambda (claim) (draw-claim claim stream :ink ink))
-                     *input/d3/p1*)
+  ;; draw all claims
+  (map-claim-input (lambda (claim)
+                     (flet ((random-component ()
+                              (/ (random 100) 100.0)))
+                       (let ((random-color
+                              (compose-in
+                               (clim:make-rgb-color (random-component)
+                                                    (random-component)
+                                                    (random-component))
+                               (make-opacity 0.5))))
+                         (draw-claim claim stream :ink random-color))))
+                   *input/d3/p1*)
 
-    ;; draw claims claimed only once
+  ;; draw claims claimed only once
+  (let ((fabric (make-fabric-from-claims-stream *input/d3/p1*)))
     (map-claim-input (lambda (claim)
                        (when (claimed-only-once fabric claim)
-                         (draw-claim claim stream :ink ink-once)))
+                         (draw-claim claim stream :ink +white+)))
                      *input/d3/p1*)))
 
 (define-aocfabric-command (com-quit :name t) ()
