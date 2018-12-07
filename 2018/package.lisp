@@ -18,9 +18,25 @@
            #:claim-left
            #:claim-width
            #:claim-top
-           #:claim-height))
+           #:claim-height
+
+           #:*d6/test*
+           #:*d6/input*
+           #:read-coordinates
+           #:bounding-box
+           #:compute-closest-coords
+           #:compute-area-sizes
+           #:compute-finite-p
+           #:make-manhattan-sum-grid
+           #:make-coord
+           #:coord-x
+           #:coord-y
+           #:coord-finite-p
+           #:coord-area-size
+           #:coord-color))
 
 (defpackage #:advent/2018/viz
   (:use #:clim #:clim-lisp #:advent/2018)
-  (:export #:viz))
+  (:export #:viz
+           #:viz-areas))
 

@@ -52,6 +52,12 @@ Day 5: Alchemical Reduction
     2.609ms 10250
   Puzzle 2: Time to improve the polymer.
   100.259ms 6188
+  
+Day 6: Chronal Coordinates
+  Puzzle 1: dangerous, keep away, largest finite area
+  2132.732ms 4342
+  Puzzle 2: safe, keep close, within manhattan sum threshold
+  445.090ms 42966
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
@@ -62,3 +68,15 @@ Lisp, here's a visualization I did quickly in 64 lines of Common Lisp code
 for the Fabrics puzzle:
 
 ![McCLIM Fabric Visualization](./2018/d03viz.png)
+
+## McCLIM visualization of Day 06 Chronal Coordinates puzzle
+
+This time I had a bug where I would find the correct test result but fail to
+find the correct result when given the input. That was quite puzzling me. I
+decided I would draw the 2-D areas to get a clue. Oh, that's obvious now,
+the bounding box computation is wrong. Fix this, recompute, good result!
+
+Thanks McCLIM for making my life easy again ;-)
+
+![McCLIM Safe Area Visualization](./2018/d06viz.png)
+

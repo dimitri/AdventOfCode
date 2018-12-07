@@ -27,6 +27,8 @@
                          (:file "d03viz")
                          (:file "d04")
                          (:file "d05")
+                         (:file "d06")
+                         (:file "d06viz")
                          (:file "summary")))))
 
 
