@@ -105,17 +105,21 @@
 (defmethod initialize-area ((aoc-areas aoc-areas))
   (unless (coords aoc-areas)
     (let* ((coords       (read-coordinates (aoc-areas-input aoc-areas)))
-           (bounding-box (bounding-box coords))
-           (grid         (compute-closest-coords coords bounding-box)))
-
-      (compute-finite-p coords bounding-box grid)
+           (bounding-box (bounding-box coords)))
 
       (loop :for ink :in *color-list*
          :for coord :in coords
          :do (setf (coord-color coord) ink))
 
       (setf (coords aoc-areas) coords)
-      (setf (b-box aoc-areas) bounding-box)
+      (setf (b-box aoc-areas) bounding-box))))
+
+(defmethod compute-sub-areas ((aoc-areas aoc-areas))
+  (unless (grid aoc-areas)
+    (let* ((grid (compute-closest-coords (coords aoc-areas)
+                                         (b-box aoc-areas))))
+
+      (compute-finite-p (coords aoc-areas) (b-box aoc-areas) grid)
       (setf (grid aoc-areas) grid))))
 
 (defun draw-coord (x y stream &key finite-p (filled t) color min-x min-y)
@@ -142,37 +146,50 @@
 
     (declare (ignore max-x max-y))
 
-    ;; add a border to coords
+    ;; draw coordinates in their own colors
     (loop :for coord :in (coords aoc-areas)
        :do (draw-coord (coord-x coord) (coord-y coord) stream
                        :filled t
-                       :color +white+
+                       :color (coord-color coord)
                        :min-x min-x
                        :min-y min-y))
 
-    (loop :for (x . y) :being :the :hash-key :of (grid aoc-areas)
-       :for reference-coord := (gethash (cons x y) (grid aoc-areas))
-       :unless (and (= x (coord-x reference-coord))
-                    (= y (coord-y reference-coord)))
-       :do (draw-coord x y stream
-                       :finite-p (coord-finite-p reference-coord)
-                       :color (coord-color reference-coord)
-                       :min-x min-x
-                       :min-y min-y))
+    (when (grid aoc-areas)
+      (maphash (lambda (x-y closest-coord)
+                 (destructuring-bind (x . y) x-y
+                   (unless (and (= x (coord-x closest-coord))
+                                (= y (coord-y closest-coord)))
+                     (draw-coord x y stream
+                                 :finite-p (coord-finite-p closest-coord)
+                                 :color (coord-color closest-coord)
+                                 :min-x min-x
+                                 :min-y min-y))))
+               (grid aoc-areas))
+
+      ;; draw coordinates in white now to make them visible again
+      (loop :for coord :in (coords aoc-areas)
+         :do (draw-coord (coord-x coord) (coord-y coord) stream
+                         :filled t
+                         :color +white+
+                         :min-x min-x
+                         :min-y min-y)))
 
     (when (manhattan-sum-grid aoc-areas)
-      (let ((safe-color (compose-in +white+ (make-opacity 0.6))))
-        (loop :for (x . y)
-           :being :the :hash-key :of (manhattan-sum-grid aoc-areas)
-           :when (< (gethash (cons x y) (manhattan-sum-grid aoc-areas))
-                    (manhattan-threshold aoc-areas))
-           :do (draw-coord x y stream
-                           :color safe-color
-                           :min-x min-x
-                           :min-y min-y))))))
+      (let ((safe-color (compose-in +white+ (make-opacity 0.3))))
+        (maphash (lambda (x-y manhattan-sum)
+                   (destructuring-bind (x . y) x-y
+                     (when (< manhattan-sum (manhattan-threshold aoc-areas))
+                       (draw-coord x y stream
+                                   :color safe-color
+                                   :min-x min-x
+                                   :min-y min-y))))
+                 (manhattan-sum-grid aoc-areas))))))
 
 (define-aoc-areas-command (com-reset :name t) ()
   (initialize-area *application-frame*))
+
+(define-aoc-areas-command (com-manhattan :name t) ()
+  (compute-sub-areas *application-frame*))
 
 (define-aoc-areas-command (com-safe :name t) ()
   (setf (manhattan-sum-grid *application-frame*)
@@ -184,7 +201,8 @@
 
 (make-command-table 'menubar-command-table
 		    :errorp nil
-		    :menu '(("Reset" :command com-reset)
+		    :menu '(("Manhattan" :command com-manhattan)
+                            ("Reset" :command com-reset)
                             ("Safe"  :command com-safe)
                             ("Quit" :command com-quit)))
 
