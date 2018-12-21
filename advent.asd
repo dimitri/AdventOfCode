@@ -30,6 +30,7 @@
                          (:file "d06")
                          (:file "d06viz")
                          (:file "d07")
+                         (:file "d08")
                          (:file "summary")))))
 
 

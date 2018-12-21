@@ -64,6 +64,12 @@ Day 7: The Sum of Its Parts
     0.330ms ABLCFNSXZPRHVEGUYKDIMQTWJO
   Puzzle 2: time to complete steps in parallel with 5 workers
     1.728ms 1157
+
+Day 8: Memory Maneuver
+  Puzzle 1: read software license file
+    4.990ms 40701
+  Puzzle 2: value of the root node
+    2.295ms 21399
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
