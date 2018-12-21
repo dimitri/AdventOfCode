@@ -58,6 +58,12 @@ Day 6: Chronal Coordinates
   2132.732ms 4342
   Puzzle 2: safe, keep close, within manhattan sum threshold
   445.090ms 42966
+
+Day 7: The Sum of Its Parts
+  Puzzle 1: order instruction steps (dependency graph)
+    0.330ms ABLCFNSXZPRHVEGUYKDIMQTWJO
+  Puzzle 2: time to complete steps in parallel with 5 workers
+    1.728ms 1157
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
