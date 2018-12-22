@@ -76,6 +76,11 @@ Day 9: Marble Mania
    31.307ms 385820
   Puzzle 2: What is the score with 100 times as many marbles?
   5293.371ms 3156297594
+  
+Day 10: The Stars Align
+  Puzzle 1: KFLBHXGK
+  Puzzle 2: 10659s
+  
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
@@ -97,4 +102,18 @@ the bounding box computation is wrong. Fix this, recompute, good result!
 Thanks McCLIM for making my life easy again ;-)
 
 ![McCLIM Safe Area Visualization](./2018/d06viz.png)
+
+## McCLIM visualization of Day 10 The Stars Align
+
+This puzzle is quite visual as you need to simulate star movements until you
+can read some letters formed by the stars as if they would be pixels on your
+monitor. Visual you said? McCLIM to the rescue again!
+
+This time, rather than just offer a mere confirmation or debugging ability
+to the puzzle, the visualization is used to **solve** the puzzle. I
+interactively went through time and reported the number of time I clicked on
+my fast-forward buttons until I had the perfect frame to see!
+
+![McCLIM Stars Visualization](./2018/d10viz.png)
+
 
