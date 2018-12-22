@@ -70,6 +70,12 @@ Day 8: Memory Maneuver
     4.990ms 40701
   Puzzle 2: value of the root node
     2.295ms 21399
+
+Day 9: Marble Mania
+  Puzzle 1: What is the winning Elf's score?
+   31.307ms 385820
+  Puzzle 2: What is the score with 100 times as many marbles?
+  5293.371ms 3156297594
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
