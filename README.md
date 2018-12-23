@@ -81,6 +81,11 @@ Day 10: The Stars Align
   Puzzle 1: KFLBHXGK
   Puzzle 2: 10659s
   
+Day 11: Chronal Charge
+  Puzzle 1: Find the 3x3 square with the largest total power
+   22.850ms 243,34
+  Puzzle 2: Find the square with the largest total power
+  413351.220ms 90,214,15
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
