@@ -93,6 +93,11 @@ Day 12: Subterranean Sustainability
   Puzzle 2: sum of indexes of pots with plants after 50000000000 generations
    18.050ms 3150000000905
 
+Day 14: Chocolate Charts
+  Puzzle 1: scores of the ten recipes immediately after 323081
+  139.835ms 7162937112
+  Puzzle 2: how many recipes to the left of 323081
+  12671.771ms 20195890
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
