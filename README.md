@@ -86,6 +86,13 @@ Day 11: Chronal Charge
    22.850ms 243,34
   Puzzle 2: Find the square with the largest total power
   413351.220ms 90,214,15
+
+Day 12: Subterranean Sustainability
+  Puzzle 1: sum of indexes of pots with plants after 20 generations
+    2.283ms 2736
+  Puzzle 2: sum of indexes of pots with plants after 50000000000 generations
+   18.050ms 3150000000905
+
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
