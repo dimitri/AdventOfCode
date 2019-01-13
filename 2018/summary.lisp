@@ -13,6 +13,8 @@
                                    #'d10/summary
                                    #'d11/summary
                                    #'d12/summary
-                                   #'d14/summary)
+                                   #'d14/summary
+                                   #'d15/summary
+                                   #'d16/summary)
      :do (funcall day-summary)
      :do (format t "~%")))

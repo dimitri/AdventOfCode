@@ -98,6 +98,15 @@ Day 14: Chocolate Charts
   139.835ms 7162937112
   Puzzle 2: how many recipes to the left of 323081
   12671.771ms 20195890
+
+Day 15: Beverage Bandits
+  TO BE DONE LATER, lacking motivation for this one at the moment
+
+Day 16: Chronal Classification
+  Puzzle 1: Count samples matching exactly 3 opcodes
+   20.406ms 529
+  Puzzle 2: Run given program with found opcodes
+   13.033ms 573
 ~~~
 
 ## McCLIM visualization of Day 03 Fabrics puzzle
