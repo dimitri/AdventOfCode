@@ -38,6 +38,10 @@
                          (:file "d14")
                          (:file "d15")
                          (:file "d16")
-                         (:file "summary")))))
+                         (:file "summary")))
+
+               (:module "2019"
+                        :components ((:file "package")
+                                     (:file "d01")))))
 
 
