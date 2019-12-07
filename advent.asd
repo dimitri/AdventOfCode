@@ -42,6 +42,7 @@
 
                (:module "2019"
                         :components ((:file "package")
-                                     (:file "d01")))))
+                                     (:file "d01")
+                                     (:file "d02")))))
 
 
