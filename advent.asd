@@ -5,7 +5,7 @@
   :description "Advent Of code"
   :author "Dimitri Fontaine <dim@tapoueh.org>"
   :license "ISC"
-  :depends-on (#:mcclim)
+  :depends-on (#:mcclim #:alexandria #:split-sequence)
   :components ((:file "package")
                (:file "utils")
                (:module "2017"
